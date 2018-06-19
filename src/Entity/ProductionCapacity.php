@@ -46,6 +46,8 @@ class ProductionCapacity
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Restaurant", inversedBy="productionCapacities")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\NotBlank
      */
     private $Restaurant;
 
@@ -54,7 +56,7 @@ class ProductionCapacity
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\TimeUnit", inversedBy="productionCapacities")
      * @ORM\JoinColumn(nullable=false)
-     * @ApiSubresource
+     * @Assert\NotBlank
      */
     private $TimeUnit;
 
@@ -63,6 +65,7 @@ class ProductionCapacity
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\ProductGroup", inversedBy="productionCapacities")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $ProductGroup;
 
@@ -71,6 +74,7 @@ class ProductionCapacity
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\ProductionUnit", inversedBy="productionCapacities")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $ProductionUnit;
 

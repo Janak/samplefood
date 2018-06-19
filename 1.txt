@@ -34,3 +34,41 @@
     }
   ]
 }
+
+
+{
+  "productionCapacities": [
+    {
+      "amount": 10,
+      "restaurant_id": 1,
+      "productionUnit": {
+        "id": 1,
+        "name": "portion"
+      },
+      "timeUnit": {
+        "id": 1,
+        "name": "daily"
+      },
+      "productGroup": {
+        "id": 1,
+        "name": "sushi"
+      }
+    },
+    {
+      "amount": 500,
+      "restaurant_id": 1,
+      "productionUnit": {
+        "id": 2,
+        "name": "piece"
+      },
+      "timeUnit": {
+        "id": 2,
+        "name": "weekly"
+      },
+      "productGroup": {
+        "id": 2,
+        "name": "sandwich"
+      }
+    }
+  ]
+}

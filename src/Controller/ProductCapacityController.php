@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\Entity\ProductionCapacity;
 use App\Repository\ProductionCapacityRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

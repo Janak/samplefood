@@ -4,8 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Production capacity
@@ -17,10 +18,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *    }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ProductionCapacityRepository")
+ *
  * @ApiResource(itemOperations={
  *     "get",
  *     "product_capacity_bulk_post" = {"route_name" = "product_capacity_bulk"}
  *     })
+ * @UniqueEntity({"Restaurant", "TimeUnit", "ProductGroup", "ProductionUnit"})
  */
 class ProductionCapacity
 {

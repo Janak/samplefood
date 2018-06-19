@@ -41,7 +41,7 @@ class ProductionCapacityRepository extends ServiceEntityRepository
      */
     public function __construct(RegistryInterface $registry, ProductionUnitRepository $productionUnitRepository, TimeUnitRepository $timeUnitRepository, ProductGroupRepository $productGroupRepository, RestaurantRepository $restaurantRepository, ValidatorInterface $validator, EntityManagerInterface $entityManager)
     {
-       parent::__construct($registry, ProductionCapacity::class);
+        parent::__construct($registry, ProductionCapacity::class);
 
         $this->product_group = $productGroupRepository;
         $this->time_unit = $timeUnitRepository;
@@ -65,11 +65,9 @@ class ProductionCapacityRepository extends ServiceEntityRepository
         if (isset($data['productionCapacities'])) {
 
             foreach ($data['productionCapacities'] as $item) {
-
                 if (isset($item['amount']) && isset($item['productionUnit']['id']) && isset($item['timeUnit']['id']) &&  isset($item['productGroup']['id']) && isset($item['restaurant_id'])) {
 
                     $capacity = new ProductionCapacity();
-
                     $capacity->setAmount($item['amount']);
 
                     $productionUnit = $this->product_unit->find($item['productionUnit']['id']);
@@ -81,10 +79,10 @@ class ProductionCapacityRepository extends ServiceEntityRepository
                     $productGroup = $this->product_group->find($item['productGroup']['id']);
                     $capacity->setProductGroup($productGroup);
 
-                    $restaurant = $this->product_group->find($item['restaurant_id']);
+                    $restaurant = $this->restaurant->find($item['restaurant_id']);
                     $capacity->setRestaurant($restaurant);
 
-                    $errors[] = $this->validator->validate($capacity);
+                    $this->validator->validate($capacity);
                 } else {
                     $errors[] = 'Wrong Data';
                 }
@@ -106,16 +104,32 @@ class ProductionCapacityRepository extends ServiceEntityRepository
      */
     public function saveBulkData($data)
     {
-        try {
+        $result = [];
+        foreach ($data['productionCapacities'] as $item) {
+            $capacity = new ProductionCapacity();
+            $capacity->setAmount($item['amount']);
 
-            foreach ($data['productionCapacities'] as $item) {
-                $pc = new ProductionCapacity();
-                $pc->setAmount();
-            }
+            $productionUnit = $this->product_unit->find($item['productionUnit']['id']);
+            $capacity->setProductionUnit($productionUnit);
 
-        } catch (\Exception $e) {
+            $timeUnit = $this->time_unit->find($item['timeUnit']['id']);
+            $capacity->setTimeUnit($timeUnit);
 
+            $productGroup = $this->product_group->find($item['productGroup']['id']);
+            $capacity->setProductGroup($productGroup);
 
+            $restaurant = $this->restaurant->find($item['restaurant_id']);
+
+            $capacity->setRestaurant($restaurant);
+            $this->entityManager->persist($capacity);
+
+            $this->validator->validate($capacity);
+
+            $result[] = $capacity->getId();
         }
+
+        $this->entityManager->flush();
+
+        return $result;
     }
 }
